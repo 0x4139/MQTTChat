@@ -1,6 +1,5 @@
 var Lab = require('lab');
-server = require("./chat");
-
+var server = require("./chat");
 
 Lab.test('Obtaining a valid token', function (done) {
   var options = {
