@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/0x4139/MQTTChat",
   "dependencies": {
-    "hapi": "^4.0.3"
+    "hapi": "^4.0.3",
+    "hapi-auth-jwt": "^0.1.2",
+    "jsonwebtoken": "^0.3.0"
   }
 }
