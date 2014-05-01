@@ -7,7 +7,7 @@ Lab.test('Obtaining a valid token', function (done) {
           url: "/connect",
           payload: {
               username: "Test User",
-              room: "Test Room"
+              room: "TestRoom"
           }
       };
     server.inject(options, function(response) {
