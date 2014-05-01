@@ -1,7 +1,21 @@
 var Lab = require('lab');
+server = require("./chat");
 
-Lab.test('returns true when 1 + 1 equals 2', function (done) {
 
-    Lab.expect(1+1).to.equal(2);
-    done();
+Lab.test('Obtaining a valid token', function (done) {
+  var options = {
+          method: "POST",
+          url: "/connect",
+          payload: {
+              username: "Test User",
+              room: "Test Room"
+          }
+      };
+    server.inject(options, function(response) {
+        var result = response.result,
+        payload = options.payload;
+        Lab.expect(response.statusCode).to.equal(200);
+        Lab.expect(result).to.have.length.above(0);
+        done();
+    });
 });

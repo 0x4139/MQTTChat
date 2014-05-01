@@ -12,7 +12,6 @@ var validate = function (decodedToken, callback) {
     return callback(null, true, decodedToken)
 };
 
-
 server.pack.require('hapi-auth-jwt', function (err) {
 
     var privateKey = 'fiphejflhaskjfajhqwouehoqwuhewqojheqwkjebqwkh';
@@ -25,6 +24,9 @@ server.pack.require('hapi-auth-jwt', function (err) {
     });
 });
 
-
-server.start();
-console.log('MQTTChat started!')
+if (!module.parent) {
+    server.start(function() {
+        console.log("MQTTChat started", server.info.uri);
+    });
+}
+module.exports = server
