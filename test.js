@@ -62,3 +62,48 @@ Lab.test('Calling typing with an valid token should return a propper response', 
 
 
 });
+
+Lab.test('Calling message without an invalid token should return a propper response', function (done) {
+  var options = {
+          method: "POST",
+          url: "/message",
+          payload: {
+              token: "SomeInvalidToken",
+              message: "Some Message"
+          }
+      };
+    server.inject(options, function(response) {
+        Lab.expect(response.result.message).to.equal("Your token is invalid");
+        done();
+    });
+});
+
+Lab.test('Calling message with an valid token should return a propper response', function (done) {
+  var requestTokenOptions = {
+          method: "POST",
+          url: "/connect",
+          payload: {
+              username: "Test User",
+              room: "Test Room"
+          }
+  };
+
+  server.inject(requestTokenOptions, function(response) {
+    var token = response.result;
+    var options = {
+            method: "POST",
+            url: "/message",
+            payload: {
+                token: token,
+                message: "Some Message"
+            }
+    };
+
+        server.inject(options, function(response) {
+            Lab.expect(response.result.message).to.equal("OK");
+            done();
+        });
+  });
+
+
+});

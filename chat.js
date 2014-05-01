@@ -32,6 +32,17 @@ server.route({
    }
 });
 
+server.route({
+    method: 'POST',
+    path: '/message',
+    handler: function (request, reply) {
+      jwt.verify(request.payload.token, privateKey, function(err, decoded) {
+        if(err)
+          reply(invalidTokenMSG);
+        reply(requestOK);
+      });
+   }
+});
 
 if (!module.parent) {
     server.start(function() {
