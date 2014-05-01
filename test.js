@@ -1,12 +1,7 @@
-var assert = require("assert")
+var Lab = require('lab');
 
-describe('ChatJS',function(){
+Lab.test('returns true when 1 + 1 equals 2', function (done) {
 
-  it('should succeed',function(){
-    assert.equal(0,0);
-  });
-
-  it('should crash',function(){
-    assert.equal(1,0);
-  });
-})
+    Lab.expect(1+1).to.equal(2);
+    done();
+});
