@@ -2,27 +2,36 @@ var Hapi = require('hapi');
 var jwt = require('jsonwebtoken');
 var server = Hapi.createServer('0.0.0.0', 5445);
 
-var validate = function (decodedToken, callback) {
+var privateKey = 'VODKAPUTINBALALAIKA';
 
-    console.log(decodedToken);
-
-    if (decodedToken) {
-      console.log(decodedToken.accountId.toString());
-    }
-    return callback(null, true, decodedToken)
+var invalidTokenMSG={
+  message:"Your token is invalid"
 };
 
-server.pack.require('hapi-auth-jwt', function (err) {
+var requestOK={
+  message:"OK"
+};
 
-    var privateKey = 'fiphejflhaskjfajhqwouehoqwuhewqojheqwkjebqwkh';
-    server.auth.strategy('token', 'jwt', { key: privateKey,  validateFunc: validate });
-
-    server.route({
-        method: 'POST',
-        path: '/connect',
-        handler: function (request, reply) { reply(jwt.sign(request.payload,privateKey));}
-    });
+server.route({
+    method: 'POST',
+    path: '/connect',
+    handler: function (request, reply) {
+      reply(jwt.sign(request.payload,privateKey));
+    }
 });
+
+server.route({
+    method: 'POST',
+    path: '/typing',
+    handler: function (request, reply) {
+      jwt.verify(request.payload.token, privateKey, function(err, decoded) {
+        if(err)
+          reply(invalidTokenMSG);
+        reply(requestOK);
+      });
+   }
+});
+
 
 if (!module.parent) {
     server.start(function() {
